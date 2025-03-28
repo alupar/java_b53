@@ -70,4 +70,25 @@ public class TriangleTests {
         } catch (IllegalArgumentException exception) {
         }
     }
+
+    @Test
+    void trianglesWithSameSidesAreEqual() {
+        var t1 = new Triangle(3, 4, 5);
+        var t2 = new Triangle(4, 5, 3);
+        Assertions.assertEquals(t1, t2);
+    }
+
+    @Test
+    void trianglesWithSameSidesAreEqual2() {
+        var t1 = new Triangle(3, 4, 5);
+        var t2 = new Triangle(4, 5, 3);
+        Assertions.assertTrue(t1.equals(t2));
+    }
+
+    @Test
+    void trianglesWithDifferentSidesAreNotEqual() {
+        var t1 = new Triangle(3, 4, 5);
+        var t2 = new Triangle(5, 5, 3);
+        Assertions.assertNotEquals(t1, t2);
+    }
 }
