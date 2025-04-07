@@ -5,7 +5,7 @@ import org.openqa.selenium.By;
 
 public class GroupHelper extends HelperBase {
 
-    public GroupHelper(ApplicationManager manager){
+    public GroupHelper(ApplicationManager manager) {
         super(manager);
     }
 
@@ -57,7 +57,10 @@ public class GroupHelper extends HelperBase {
     }
 
     private void returnToGroupsPage() {
-        click(By.linkText("group page"));
+        By href = By.linkText("group page");
+        if (manager.isElementPresent(href)) {
+            click(href);
+        }
     }
 
     private void submitGroupModification() {

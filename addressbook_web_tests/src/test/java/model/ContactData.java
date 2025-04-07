@@ -1,7 +1,8 @@
 package model;
 
 public record ContactData(String firstname, String middlename, String lastname, String company, String address,
-                          String homePhone, String mobile, String workPhone, String email, String email2, String homepage) {
+                          String homePhone, String mobile, String workPhone, String email, String email2,
+                          String homepage) {
 
     public ContactData() {
         this("", "", "", "", "", "", "", "", "", "", "");

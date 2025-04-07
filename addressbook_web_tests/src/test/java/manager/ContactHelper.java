@@ -1,15 +1,16 @@
 package manager;
+
 import model.ContactData;
 import org.openqa.selenium.By;
 
 public class ContactHelper extends HelperBase {
 
-    public ContactHelper(ApplicationManager manager){
+    public ContactHelper(ApplicationManager manager) {
         super(manager);
     }
 
     public void returnToHomePage() {
-            click(By.linkText("home page"));
+        click(By.linkText("home page"));
     }
 
     public void openHomePage() {
