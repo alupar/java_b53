@@ -57,10 +57,7 @@ public class GroupHelper extends HelperBase {
     }
 
     private void returnToGroupsPage() {
-        By href = By.linkText("group page");
-        if (manager.isElementPresent(href)) {
-            click(href);
-        }
+            click(By.linkText("group page"));
     }
 
     private void submitGroupModification() {

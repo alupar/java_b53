@@ -7,6 +7,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import java.time.Duration;
+
 public class ApplicationManager {
     protected WebDriver driver;
     private LoginHelper session;
@@ -26,6 +28,7 @@ public class ApplicationManager {
             Runtime.getRuntime().addShutdownHook(new Thread(driver::quit));
             driver.get("http://localhost/addressbook/");
             driver.manage().window().setSize(new Dimension(2045, 1080));
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
             session().login("admin", "secret");
         }
     }
