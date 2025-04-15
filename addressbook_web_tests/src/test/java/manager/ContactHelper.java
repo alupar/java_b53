@@ -3,6 +3,8 @@ package manager;
 import model.ContactData;
 import org.openqa.selenium.By;
 
+import java.util.Random;
+
 public class ContactHelper extends HelperBase {
 
     public ContactHelper(ApplicationManager manager) {
@@ -25,7 +27,7 @@ public class ContactHelper extends HelperBase {
         iniContactCreation();
         fillContactForm(contact);
         submitContactCreation();
-        returnToHomePage();
+        //returnToHomePage();
     }
 
 
@@ -47,7 +49,7 @@ public class ContactHelper extends HelperBase {
         click(By.cssSelector("[value='Enter']"));
     }
 
-    public void removeContactOnHomePage() {
+    public void removeContactsOnHomePage() {
         openHomePage();
         selectContact();
         click(By.cssSelector("[type='button'][value='Delete']"));
@@ -67,4 +69,28 @@ public class ContactHelper extends HelperBase {
         openHomePage();
         return manager.isElementPresent(By.name("selected[]"));
     }
+
+    public int getCount() {
+        openHomePage();
+        return manager.driver.findElements(By.name("selected[]")).size();
+    }
+
+    public void removeAllContacts() {
+        openHomePage();
+        selectAllContacts();
+        click(By.cssSelector("[type='button'][value='Delete']"));
+    }
+
+    private void selectAllContacts() {
+        var checkboxies = manager.driver.findElements(By.name("selected[]"));
+        for (var checkbox : checkboxies) {
+            checkbox.click();
+        }
+    }
+
+    public static String randomEmail() {
+        var rnd = new Random();
+        return rnd.nextInt(1000) + "@test.ru";
+    }
+
 }

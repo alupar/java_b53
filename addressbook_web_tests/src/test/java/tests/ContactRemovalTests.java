@@ -10,7 +10,7 @@ public class ContactRemovalTests extends TestBase {
         if (!app.contacts().isContactPresent()) {
             app.contacts().createContact(new ContactData().withFirstName("Вася").withLastName("Петров"));
         }
-        app.contacts().removeContactOnHomePage();
+        app.contacts().removeContactsOnHomePage();
     }
 
     @Test
@@ -19,5 +19,13 @@ public class ContactRemovalTests extends TestBase {
             app.contacts().createContact(new ContactData().withFirstName("София").withLastName("Емельянова").withMiddleName("Дмитриевна"));
         }
         app.contacts().removeContactOnEditPage();
+    }
+
+    @Test
+    public void canRemoveAllContactsAtOnce() {
+        if (app.contacts().getCount() == 0) {
+            app.contacts().createContact(new ContactData().withFirstName("Вася").withLastName("Петров"));
+        }
+        app.contacts().removeAllContacts();
     }
 }
