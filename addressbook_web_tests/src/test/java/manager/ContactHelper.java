@@ -3,6 +3,8 @@ package manager;
 import model.ContactData;
 import org.openqa.selenium.By;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class ContactHelper extends HelperBase {
@@ -49,9 +51,9 @@ public class ContactHelper extends HelperBase {
         click(By.cssSelector("[value='Enter']"));
     }
 
-    public void removeContactsOnHomePage() {
+    public void removeContactsOnHomePage(ContactData contact) {
         openHomePage();
-        selectContact();
+        selectContact(contact);
         click(By.cssSelector("[type='button'][value='Delete']"));
     }
 
@@ -61,8 +63,9 @@ public class ContactHelper extends HelperBase {
         click(By.cssSelector("[value='Delete']"));
     }
 
-    private void selectContact() {
-        click(By.name("selected[]"));
+    private void selectContact(ContactData contact) {
+//        click(By.name("selected[]"));
+        click(By.cssSelector(String.format("input[id='%s']", contact.id())));
     }
 
     public boolean isContactPresent() {
@@ -91,6 +94,22 @@ public class ContactHelper extends HelperBase {
     public static String randomEmail() {
         var rnd = new Random();
         return rnd.nextInt(1000) + "@test.ru";
+    }
+
+    public List<ContactData> getList() {
+        openHomePage();
+        var contacts = new ArrayList<ContactData>();
+        var trows = manager.driver.findElements(By.cssSelector("tr[name='entry']"));
+        for (var trow : trows) {
+            var checkbox = trow.findElement(By.cssSelector("tr[name='entry'] input[type='checkbox']"));
+            var contactId = checkbox.getAttribute("id");
+            var td = trow.findElements(By.tagName("td"));
+            var lastname = td.get(1).getText();
+            var firstname = td.get(2).getText();
+            var address = td.get(3).getText();
+            contacts.add(new ContactData().withId(contactId).withLastName(lastname).withFirstName(firstname).withAddress(address));
+        }
+        return contacts;
     }
 
 }
