@@ -1,6 +1,7 @@
 package manager;
 
 import model.ContactData;
+import model.GroupData;
 import org.openqa.selenium.By;
 
 import java.util.ArrayList;
@@ -17,6 +18,21 @@ public class ContactHelper extends HelperBase {
         click(By.linkText("home page"));
     }
 
+    public void modifyContact(ContactData contact, ContactData modifiedContact) {
+//        openHomePage();
+        initContactModification(contact);
+        fillContactForm(modifiedContact);
+        submitContactModification();
+        returnToHomePage();
+    }
+    private void initContactModification(ContactData contact) {
+        click(By.cssSelector("td.center > a[href^='edit.php?id=" + contact.id() + "']"));
+    }
+
+    private void submitContactModification() {
+        click(By.name("update"));
+    }
+
     public void openHomePage() {
         click(By.linkText("home"));
     }
@@ -31,7 +47,6 @@ public class ContactHelper extends HelperBase {
         submitContactCreation();
         //returnToHomePage();
     }
-
 
     private void fillContactForm(ContactData contact) {
         type(By.name("firstname"), contact.firstname());
@@ -57,20 +72,15 @@ public class ContactHelper extends HelperBase {
         click(By.cssSelector("[type='button'][value='Delete']"));
     }
 
-    public void removeContactOnEditPage() {
-        openHomePage();
-        click(By.cssSelector("[title='Edit']"));
+    public void removeContactOnEditPage(ContactData contact) {
+        initContactModification(contact);
         click(By.cssSelector("[value='Delete']"));
+        openHomePage();
     }
 
     private void selectContact(ContactData contact) {
 //        click(By.name("selected[]"));
         click(By.cssSelector(String.format("input[id='%s']", contact.id())));
-    }
-
-    public boolean isContactPresent() {
-        openHomePage();
-        return manager.isElementPresent(By.name("selected[]"));
     }
 
     public int getCount() {

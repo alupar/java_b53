@@ -28,7 +28,13 @@ public class ContactRemovalTests extends TestBase {
         if (app.contacts().getCount() == 0) {
             app.contacts().createContact(new ContactData().withFirstName("София").withLastName("Емельянова").withMiddleName("Дмитриевна"));
         }
-        app.contacts().removeContactOnEditPage();
+        var oldContacts = app.contacts().getList();
+        var index = new Random().nextInt(oldContacts.size());
+        app.contacts().removeContactOnEditPage(oldContacts.get(index));
+        var newContacts = app.contacts().getList();
+        var expectedList = new ArrayList<>(oldContacts);
+        expectedList.remove(index);
+        Assertions.assertEquals(newContacts, expectedList);
     }
 
     @Test
