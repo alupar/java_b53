@@ -1,9 +1,9 @@
 package manager;
 
 import model.ContactData;
-import model.GroupData;
 import org.openqa.selenium.By;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -25,6 +25,7 @@ public class ContactHelper extends HelperBase {
         submitContactModification();
         returnToHomePage();
     }
+
     private void initContactModification(ContactData contact) {
         click(By.cssSelector("td.center > a[href^='edit.php?id=" + contact.id() + "']"));
     }
@@ -52,6 +53,12 @@ public class ContactHelper extends HelperBase {
         type(By.name("firstname"), contact.firstname());
         type(By.name("middlename"), contact.middlename());
         type(By.name("lastname"), contact.lastname());
+        if (contact.photo() != null && !contact.photo().isEmpty()) {
+            File file = new File(contact.photo());
+            if (file.exists()) {
+                attach(By.name("photo"), String.valueOf(file));
+            }
+        }
         type(By.name("company"), contact.company());
         type(By.name("address"), contact.address());
         type(By.name("home"), contact.homePhone());
@@ -89,6 +96,12 @@ public class ContactHelper extends HelperBase {
     }
 
     public void removeAllContacts() {
+        openHomePage();
+        click(By.cssSelector("#MassCB"));
+        click(By.cssSelector("[type='button'][value='Delete']"));
+    }
+
+    public void removeAllContactsOneByOne() {
         openHomePage();
         selectAllContacts();
         click(By.cssSelector("[type='button'][value='Delete']"));
