@@ -17,7 +17,7 @@ import java.util.List;
 public class ContactCreationTests extends TestBase {
 
     public static List<ContactData> contactProvider() throws IOException {
-        var result = new ArrayList<>(List.of(new ContactData("", "Есения", "Фёдоровна", "Осипова", "Яндекс", "119021, Москва, ул. Льва Толстого, 16", "89450101010", "+79410000000", "89490101013", "oksana8128@hotmail.com", "arseniy1977@mail.ru", "https://www.google.com/", "src/test/resources/images/pilot.jpg")));
+        var result = new ArrayList<>(List.of(new ContactData(/*"", "Есения", "Фёдоровна", "Осипова", "Яндекс", "119021, Москва, ул. Льва Толстого, 16", "89450101010", "+79410000000", "89490101013", "oksana8128@hotmail.com", "arseniy1977@mail.ru", "https://www.google.com/", "src/test/resources/images/pilot.jpg"*/)));
         var json = Files.readString(Paths.get("contacts.json"));
         ObjectMapper mapper = new ObjectMapper();
         var value = mapper.readValue(json, new TypeReference<List<ContactData>>() {
@@ -29,16 +29,35 @@ public class ContactCreationTests extends TestBase {
     @ParameterizedTest
     @MethodSource("contactProvider")
     public void canCreateMultipleContact(ContactData contact) {
-        var oldContacts = app.contacts().getList();
+        var oldContacts = app.hbm().getContactList();
         app.contacts().createContact(contact);
-        var newContacts = app.contacts().getList();
+        var newContacts = app.hbm().getContactList();
         Comparator<ContactData> compareById = (o1, o2) -> {
             return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
         };
         newContacts.sort(compareById);
+        var maxId = newContacts.get(newContacts.size() - 1).id();
+
         var expectedList = new ArrayList<>(oldContacts);
-        expectedList.add(contact.withId(newContacts.get(newContacts.size() - 1).id()).withMiddleName("").withCompany("").withHome("").withMobile("").withWork("").withEmail("").withEmail2("").withHomepage("").withPhoto(""));
+        expectedList.add(contact.withId(maxId).withPhoto(""));
         expectedList.sort(compareById);
+        Assertions.assertEquals(newContacts, expectedList);
+    }
+
+    @ParameterizedTest
+    @MethodSource("contactProvider")
+    public void canCreateContactsJdbc(ContactData contact) {
+        var oldContacts = app.jdbc().getContactList();
+        app.contacts().createContact(contact);
+        var newContacts = app.jdbc().getContactList();
+        Comparator<ContactData> compareByIdContact = (o1, o2) -> {
+            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
+        };
+        newContacts.sort(compareByIdContact);
+        var maxId = newContacts.get(newContacts.size() - 1).id();
+        var expectedList = new ArrayList<>(oldContacts);
+        expectedList.add(contact.withId(maxId).withPhoto(""));
+        expectedList.sort(compareByIdContact);
         Assertions.assertEquals(newContacts, expectedList);
     }
 }

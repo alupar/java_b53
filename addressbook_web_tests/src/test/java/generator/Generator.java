@@ -11,9 +11,10 @@ import model.GroupData;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Generator {
-//-t contacts -o contacts.json -f json -n 5
+    //-t contacts -o contacts.json -f json -n 4
     @Parameter(names = {"--type", "-t"})
     String type;
     @Parameter(names = {"--output", "-o"})
@@ -54,6 +55,7 @@ public class Generator {
                     .withFirstName(CommonFunctions.randomString(i * 3))
                     .withLastName(CommonFunctions.randomString(i * 3))
                     .withAddress(CommonFunctions.randomString(i * 3))
+                    .withEmail(randomEmail())
                     .withPhoto(CommonFunctions.randomFile("src/test/resources/images")));
         }
         return result;
@@ -83,4 +85,10 @@ public class Generator {
             throw new IllegalArgumentException("Неизвестный формат" + format);
         }
     }
+
+    public String randomEmail() {
+        var rnd = new Random();
+        return rnd.nextInt(1000) + "@test.ru";
+    }
+
 }

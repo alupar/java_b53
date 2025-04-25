@@ -11,13 +11,13 @@ public class ContactRemovalTests extends TestBase {
 
     @Test
     public void canRemoveContactOnHomePage() {
-        if (app.contacts().getCount() == 0) {
-            app.contacts().createContact(new ContactData().withFirstName("Вася").withLastName("Петров"));
+        if (app.hbm().getContactCount() == 0) {
+            app.hbm().createContact(new ContactData().withFirstName("Вася").withLastName("Петров").withEmail("test@test.com"));
         }
-        var oldContacts = app.contacts().getList();
+        var oldContacts = app.hbm().getContactList();
         var index = new Random().nextInt(oldContacts.size());
         app.contacts().removeContactsOnHomePage(oldContacts.get(index));
-        var newContacts = app.contacts().getList();
+        var newContacts = app.hbm().getContactList();
         var expectedList = new ArrayList<>(oldContacts);
         expectedList.remove(index);
         Assertions.assertEquals(newContacts, expectedList);
@@ -25,13 +25,13 @@ public class ContactRemovalTests extends TestBase {
 
     @Test
     public void canRemoveContactOnEditPage() {
-        if (app.contacts().getCount() == 0) {
-            app.contacts().createContact(new ContactData().withFirstName("София").withLastName("Емельянова").withMiddleName("Дмитриевна"));
+        if (app.hbm().getContactCount() == 0) {
+            app.hbm().createContact(new ContactData().withFirstName("Вася").withLastName("Петров").withEmail("test@test.com"));
         }
-        var oldContacts = app.contacts().getList();
+        var oldContacts = app.hbm().getContactList();
         var index = new Random().nextInt(oldContacts.size());
         app.contacts().removeContactOnEditPage(oldContacts.get(index));
-        var newContacts = app.contacts().getList();
+        var newContacts = app.hbm().getContactList();
         var expectedList = new ArrayList<>(oldContacts);
         expectedList.remove(index);
         Assertions.assertEquals(newContacts, expectedList);
@@ -39,8 +39,8 @@ public class ContactRemovalTests extends TestBase {
 
     @Test
     public void canRemoveAllContactsAtOnce() {
-        if (app.contacts().getCount() == 0) {
-            app.contacts().createContact(new ContactData().withFirstName("Вася").withLastName("Петров"));
+        if (app.hbm().getContactCount() == 0) {
+            app.hbm().createContact(new ContactData().withFirstName("Вася").withLastName("Петров"));
         }
         app.contacts().removeAllContacts();
     }

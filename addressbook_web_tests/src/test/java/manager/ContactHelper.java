@@ -6,7 +6,6 @@ import org.openqa.selenium.By;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class ContactHelper extends HelperBase {
 
@@ -19,7 +18,7 @@ public class ContactHelper extends HelperBase {
     }
 
     public void modifyContact(ContactData contact, ContactData modifiedContact) {
-//        openHomePage();
+        openHomePage();
         initContactModification(contact);
         fillContactForm(modifiedContact);
         submitContactModification();
@@ -80,6 +79,7 @@ public class ContactHelper extends HelperBase {
     }
 
     public void removeContactOnEditPage(ContactData contact) {
+        openHomePage();
         initContactModification(contact);
         click(By.cssSelector("[value='Delete']"));
         openHomePage();
@@ -114,10 +114,6 @@ public class ContactHelper extends HelperBase {
         }
     }
 
-    public static String randomEmail() {
-        var rnd = new Random();
-        return rnd.nextInt(1000) + "@test.ru";
-    }
 
     public List<ContactData> getList() {
         openHomePage();
