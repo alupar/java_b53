@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class GroupHelper extends HelperBase {
 
     public GroupHelper(ApplicationManager manager) {
@@ -106,4 +107,5 @@ public class GroupHelper extends HelperBase {
         }
         return groups;
     }
+
 }

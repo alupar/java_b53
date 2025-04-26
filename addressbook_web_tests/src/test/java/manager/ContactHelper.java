@@ -1,7 +1,10 @@
 package manager;
 
 import model.ContactData;
+import model.GroupData;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -48,6 +51,14 @@ public class ContactHelper extends HelperBase {
         //returnToHomePage();
     }
 
+    public void createContact(ContactData contact, GroupData group) {
+        iniContactCreation();
+        fillContactForm(contact);
+        selectGroupOnEditPage(group);
+        submitContactCreation();
+        openHomePage();
+    }
+
     private void fillContactForm(ContactData contact) {
         type(By.name("firstname"), contact.firstname());
         type(By.name("middlename"), contact.middlename());
@@ -74,15 +85,17 @@ public class ContactHelper extends HelperBase {
 
     public void removeContactsOnHomePage(ContactData contact) {
         openHomePage();
+        selectGroupOnHomePage();
         selectContact(contact);
         click(By.cssSelector("[type='button'][value='Delete']"));
     }
 
     public void removeContactOnEditPage(ContactData contact) {
         openHomePage();
+        selectGroupOnHomePage();
         initContactModification(contact);
         click(By.cssSelector("[value='Delete']"));
-        openHomePage();
+//        openHomePage();
     }
 
     private void selectContact(ContactData contact) {
@@ -97,8 +110,12 @@ public class ContactHelper extends HelperBase {
 
     public void removeAllContacts() {
         openHomePage();
+        selectGroupOnHomePage();
         click(By.cssSelector("#MassCB"));
         click(By.cssSelector("[type='button'][value='Delete']"));
+//        if (manager.driver.switchTo().alert() != null) {
+//            manager.driver.switchTo().alert().accept();
+//        }
     }
 
     public void removeAllContactsOneByOne() {
@@ -131,4 +148,30 @@ public class ContactHelper extends HelperBase {
         return contacts;
     }
 
+    public void deleteContactFromGroup(ContactData contact, GroupData group) {
+        openHomePage();
+//        selectGroupOnHomePage();
+        selectDeleteGroupName(group);
+        selectContact(contact);
+        removeContactFromGroup();
+        openHomePage();
+    }
+
+    private void selectGroupOnHomePage() {
+        WebElement dropdown = manager.driver.findElement(By.name("group"));
+        Select select = new Select(dropdown);
+        select.selectByVisibleText("[all]");
+    }
+
+    private void removeContactFromGroup() {
+        click(By.name("remove"));
+    }
+
+    public void selectDeleteGroupName(GroupData group) {
+        new Select(manager.driver.findElement(By.name("group"))).selectByValue(group.id());
+    }
+
+    private void selectGroupOnEditPage(GroupData group) {
+        new Select(manager.driver.findElement(By.name("new_group"))).selectByValue(group.id());
+    }
 }

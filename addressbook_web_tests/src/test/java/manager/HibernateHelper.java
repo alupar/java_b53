@@ -117,4 +117,23 @@ public class HibernateHelper extends HelperBase {
             return convertListContact(session.get(GroupRecord.class, group.id()).contacts);
         });
     }
+
+    public void addContactToGroup() {
+        sessionFactory.inSession(session -> {
+            session.getTransaction().begin();
+            ContactRecord contact = session.createQuery("from ContactRecord", ContactRecord.class)
+                    .setMaxResults(1)
+                    .uniqueResult();
+            GroupRecord group = session.createQuery("from GroupRecord", GroupRecord.class)
+                    .setMaxResults(1)
+                    .uniqueResult();
+            String sql = "INSERT INTO address_in_groups (domain_id, id, group_id, created, deprecated) VALUES (0, :contactId, :groupId, NOW(), '1000-01-01 00:00:00')";
+            session.createNativeQuery(sql)
+                    .setParameter("contactId", contact.id)
+                    .setParameter("groupId", group.id)
+                    .executeUpdate();
+            session.getTransaction().commit();
+        });
+    }
+
 }

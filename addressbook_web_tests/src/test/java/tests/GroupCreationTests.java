@@ -43,7 +43,7 @@ public class GroupCreationTests extends TestBase {
 
     @ParameterizedTest
     @MethodSource("groupProvider")
-    public void canCreateGroup(GroupData group) {
+    public void canCreateGroups(GroupData group) {
         var oldGroups = app.jdbc().getGroupList();
         app.groups().createGroup(group);
         var newGroups = app.jdbc().getGroupList();
