@@ -59,6 +59,20 @@ public class ContactHelper extends HelperBase {
         openHomePage();
     }
 
+    public void createContactInGroup(ContactData contact, GroupData group) {
+        openHomePage();
+        selectAllGroupsOnHomePage();
+        selectContact(contact);
+        new Select(manager.driver.findElement(By.name("to_group")))
+                .selectByValue(group.id());
+        addContactInGroup();
+        openHomePage();
+    }
+
+    public void addContactInGroup() {
+        click(By.cssSelector("input[value='Add to']"));
+    }
+
     private void fillContactForm(ContactData contact) {
         type(By.name("firstname"), contact.firstname());
         type(By.name("middlename"), contact.middlename());
@@ -85,14 +99,14 @@ public class ContactHelper extends HelperBase {
 
     public void removeContactsOnHomePage(ContactData contact) {
         openHomePage();
-        selectGroupOnHomePage();
+        selectAllGroupsOnHomePage();
         selectContact(contact);
         click(By.cssSelector("[type='button'][value='Delete']"));
     }
 
     public void removeContactOnEditPage(ContactData contact) {
         openHomePage();
-        selectGroupOnHomePage();
+        selectAllGroupsOnHomePage();
         initContactModification(contact);
         click(By.cssSelector("[value='Delete']"));
 //        openHomePage();
@@ -110,7 +124,7 @@ public class ContactHelper extends HelperBase {
 
     public void removeAllContacts() {
         openHomePage();
-        selectGroupOnHomePage();
+        selectAllGroupsOnHomePage();
         click(By.cssSelector("#MassCB"));
         click(By.cssSelector("[type='button'][value='Delete']"));
 //        if (manager.driver.switchTo().alert() != null) {
@@ -157,7 +171,7 @@ public class ContactHelper extends HelperBase {
         openHomePage();
     }
 
-    private void selectGroupOnHomePage() {
+    private void selectAllGroupsOnHomePage() {
         WebElement dropdown = manager.driver.findElement(By.name("group"));
         Select select = new Select(dropdown);
         select.selectByVisibleText("[all]");
