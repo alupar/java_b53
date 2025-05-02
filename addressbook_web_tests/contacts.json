@@ -8,22 +8,39 @@
   "homePhone" : "",
   "mobile" : "",
   "workPhone" : "",
-  "email" : "368@test.ru",
+  "email" : "1197@test.ru",
   "email2" : "",
+  "email3" : "",
   "homepage" : "",
-  "photo" : "src\\test\\resources\\images\\av4.jpg"
+  "photo" : "src\\test\\resources\\images\\av6.jpg"
 }, {
   "id" : "",
-  "firstname" : "amg",
+  "firstname" : "plo",
   "middlename" : "",
-  "lastname" : "vcn",
+  "lastname" : "ycf",
   "company" : "",
-  "address" : "fya",
+  "address" : "rmp",
   "homePhone" : "",
   "mobile" : "",
   "workPhone" : "",
-  "email" : "421@test.ru",
+  "email" : "6424@test.ru",
   "email2" : "",
+  "email3" : "",
   "homepage" : "",
-  "photo" : "src\\test\\resources\\images\\av3.jpg"
+  "photo" : "src\\test\\resources\\images\\pilot.jpg"
+}, {
+  "id" : "",
+  "firstname" : "cxolwu",
+  "middlename" : "",
+  "lastname" : "pmgndf",
+  "company" : "",
+  "address" : "vszauz",
+  "homePhone" : "",
+  "mobile" : "",
+  "workPhone" : "",
+  "email" : "5080@test.ru",
+  "email2" : "",
+  "email3" : "",
+  "homepage" : "",
+  "photo" : "src\\test\\resources\\images\\av1.jpg"
 } ]

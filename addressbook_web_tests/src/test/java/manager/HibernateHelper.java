@@ -81,7 +81,12 @@ public class HibernateHelper extends HelperBase {
                 .withFirstName(record.firstname)
                 .withLastName(record.lastname)
                 .withAddress(record.address)
-                .withEmail(record.email);
+                .withHome(record.home)
+                .withMobile(record.mobile)
+                .withWork(record.work)
+                .withEmail(record.email)
+                .withEmail2(record.email2)
+                .withEmail3(record.email3);
     }
 
     private static ContactRecord convert(ContactData data) {
@@ -89,7 +94,7 @@ public class HibernateHelper extends HelperBase {
         if ("".equals(id)) {
             id = "0";
         }
-        return new ContactRecord(Integer.parseInt(id), data.firstname(), data.lastname(), data.address(), data.email());
+        return new ContactRecord(Integer.parseInt(id), data.firstname(), data.lastname(), data.address(),data.homePhone(),data.mobile(),data.workPhone(), data.email(), data.email2(), data.email3());
     }
 
     public List<ContactData> getContactList() {

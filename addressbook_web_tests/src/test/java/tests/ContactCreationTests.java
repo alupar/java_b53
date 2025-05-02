@@ -31,11 +31,17 @@ public class ContactCreationTests extends TestBase {
         return List.of(new ContactData()
                 .withFirstName(CommonFunctions.randomString(10))
                 .withLastName(CommonFunctions.randomString(20))
-                .withAddress(CommonFunctions.randomString(30)));
+                .withAddress(CommonFunctions.randomString(30))
+                .withHome(CommonFunctions.randomPhoneNumber.apply(10))
+                .withMobile(CommonFunctions.randomPhoneNumber.apply(10))
+                .withWork(CommonFunctions.randomPhoneNumber.apply(10))
+                .withEmail(CommonFunctions.randomEmail())
+                .withEmail2(CommonFunctions.randomEmail())
+                .withEmail3(CommonFunctions.randomEmail()));
     }
 
     @ParameterizedTest
-    @MethodSource("contactProvider")
+    @MethodSource("singleRandomContact")
     public void canCreateMultipleContact(ContactData contact) {
         var oldContacts = app.hbm().getContactList();
         app.contacts().createContact(contact);
