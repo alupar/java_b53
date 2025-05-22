@@ -33,4 +33,21 @@ public class UserRegistrationTests extends TestBase {
         Assertions.assertTrue(app.http().isLoggedIn());
     }
 
+    @ParameterizedTest
+    @MethodSource("randomUsername")
+    public void canRegisterUserApi(String username) {
+        var email = String.format("%s@localhost", username);
+        // создать пользователя (адрес) на почтовом сервере через Api
+        app.jamesApi().addUser(email,"password");
+        // Регистрируем пользователя через API вместо UI
+        app.rest().createNewAccountApi(username, email);
+        // ждём и получаем почту (MailHelper) и извлекаем ссылку
+        var url = app.mail().extractActivationLink(email, DEFAULT_PASSWORD, Duration.ofSeconds(10));
+        // проходим по ссылке и завершаем регистрацию -- браузер
+        app.user().activateUserAccount(url);
+        // проверяем, что пользователь может залогиниться (HttpSessionHelper)
+        app.http().login(username, "password");
+        Assertions.assertTrue(app.http().isLoggedIn());
+    }
+
 }
