@@ -1,5 +1,6 @@
 package tests;
 
+import io.qameta.allure.Allure;
 import model.ContactData;
 import model.GroupData;
 import org.junit.jupiter.api.Assertions;
@@ -15,21 +16,24 @@ public class ContactRemovalTests extends TestBase {
 
     @Test
     void deleteContactFromGroup() {
-//        если нет ни одного контакта, то создаём его
-        if (app.hbm().getContactCount() == 0) {
-            app.hbm().createContact(new ContactData()
-                    .withFirstName("contact for group")
-                    .withLastName("contact for group")
-                    .withEmail("groups@contact.com"));
-        }
-//        если нет ни одной группы, то создаём её
-        if (app.hbm().getGroupCount() == 0) {
-            app.hbm().createGroup(new GroupData().withName("group for contact"));
-        }
-//        если нет групп с контактами, то создаём
-        if (getGroupsWithContacts().isEmpty()) {
-            app.hbm().addContactToGroup();
-        }
+        Allure.step("Precondition: if there is no contact, then create one", step -> {
+            if (app.hbm().getContactCount() == 0) {
+                app.hbm().createContact(new ContactData()
+                        .withFirstName("contact for group")
+                        .withLastName("contact for group")
+                        .withEmail("groups@contact.com"));
+            }
+        });
+        Allure.step("Precondition: if there is no group, then create one", step -> {
+            if (app.hbm().getGroupCount() == 0) {
+                app.hbm().createGroup(new GroupData().withName("group for contact"));
+            }
+        });
+        Allure.step("Precondition: if there are no groups with contacts, then create", step -> {
+            if (getGroupsWithContacts().isEmpty()) {
+                app.hbm().addContactToGroup();
+            }
+        });
         var groups = getGroupsWithContacts();
         var index = new Random().nextInt(groups.size());
         var group = groups.get(index);
@@ -44,7 +48,9 @@ public class ContactRemovalTests extends TestBase {
         newRelated.sort(compareByIdContact);
         expectedList.remove(contactToRemove);
         expectedList.sort(compareByIdContact);
-        Assertions.assertEquals(newRelated, expectedList);
+        Allure.step("Checking if a contact has been removed from a group", step -> {
+            Assertions.assertEquals(newRelated, expectedList);
+        });
     }
 
     @Test
